@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { StateContext } from "../App";
-import { FaRegUser } from "react-icons/fa";
+import { FaRegUser, FaAngleLeft } from "react-icons/fa";
 import Search from "./Search";
 
 const Header = () => {
@@ -27,7 +27,12 @@ const Header = () => {
   return (
     <header className={user ? "bg-stone-900 w-full" : "bg-stone-800 w-full"}>
       <div className="p-4 flex justify-between">
-        <Search />
+        <div className="flex items-center gap-4">
+          <button className="bg-stone-950 rounded-full w-10 h-10 flex items-center justify-center">
+            <FaAngleLeft />
+          </button>
+          <Search />
+        </div>
 
         {!token ? (
           <button

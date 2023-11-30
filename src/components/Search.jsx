@@ -18,7 +18,7 @@ const Search = () => {
   };
 
   return (
-    <div className="rounded-lg flex flex-col gap-4 h-full w-2/4">
+    <div className="rounded-lg flex flex-col gap-4 h-full">
       <form>
         <div className="flex items-center gap-2 bg">
           <input

@@ -9,6 +9,8 @@ const SearchItems = () => {
     console.log(">>>", searchResult);
   }, [searchResult]);
 
+
+
   return (
     <div className="overflow-y-auto w-full h-full flex flex-wrap gap-2 bg-stone-900 p-4">
       {searchResult.length > 0 ? (

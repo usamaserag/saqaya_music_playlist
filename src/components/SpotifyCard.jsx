@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import defaultImage from "../assets/spotify_default_image.jpg";
+import { StateContext } from "../App";
 
 const SpotifyCard = ({ item }) => {
+  const { handleGetAlbums } = useContext(StateContext);
+
   return (
     <div
-      className="shadow w-32 p-3 rounded-md bg-stone-800 flex flex-col gap-2 flex-grow"
+      className="shadow w-32 min-w-32 p-3 rounded-md bg-stone-800 flex flex-col gap-2 flex-grow"
+      onClick={() => handleGetAlbums(item.id)}
     >
       <div className="rounded-full h-28 w-28 m-auto">
         <img

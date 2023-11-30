@@ -2,7 +2,6 @@ import React, { useEffect, useState, createContext } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
 import Home from "./pages/Home.jsx";
 import Sidebar from "./components/Sidebar.jsx";
-
 import Header from "./components/Header.jsx";
 import MusicPlayer from "./components/MusicPlayer.jsx";
 
@@ -50,8 +49,30 @@ const App = () => {
     }
   };
 
+  const handleGetAlbums = async (id) => {
+    console.log(id)
+    try {
+      const artistParameters = {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+      };
+      const response = await fetch(
+        `https://api.spotify.com/v1/artists/${id}/albums`,
+        artistParameters
+      );
+
+      const data = await response.json();
+      console.log("PPPPP", data)
+    } catch (error) {
+      console.error("Error searching for artists:", error);
+    }
+  }
+
   return (
-    <StateContext.Provider value={{ user, token, searchResult, searchSpotify }}>
+    <StateContext.Provider value={{ user, token, searchResult, searchSpotify, handleGetAlbums }}>
       <div className="bg-stone-950 text-white h-screen">
         <div className="p-4 h-full flex flex-col gap-2">
           <div className="flex items-center gap-2 h-full">
