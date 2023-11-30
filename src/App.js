@@ -56,11 +56,9 @@ const App = () => {
         <div className="p-4 h-full flex flex-col gap-2">
           <div className="flex items-center gap-2 h-full">
             <Sidebar />
-            <div className="w-full h-full rounded-lg flex flex-col overflow-y-auto">
+            <div className="w-full h-full rounded-lg flex flex-col overflow-hidden" style={{ height: 'calc(100vh - 80px)' }}>
               <Header />
-              <div className="bg-stone-900 p-4 h-full w-full">
-                <Home />
-              </div>
+              <Home />
             </div>
           </div>
           <MusicPlayer />
