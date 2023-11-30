@@ -4,7 +4,7 @@ import { FaSpotify } from "react-icons/fa";
 
 const Sidebar = () => {
   return (
-    <aside className="flex flex-col gap-2 col-span-1 text-white h-full">
+    <aside className="w-60 flex flex-col gap-2 col-span-1 text-white h-full">
       <div className="p-4 rounded-lg bg-stone-900 flex items-center">
         <ul className="flex flex-col gap-4">
           <li className="flex items-center gap-2 font-semibold">
@@ -18,9 +18,7 @@ const Sidebar = () => {
             </button>
           </li>
           <li>
-            <button
-              className="flex items-center gap-4 font-semibold text-lg"
-            >
+            <button className="flex items-center gap-4 font-semibold text-lg">
               <GoSearch />
               <span>Search</span>
             </button>
