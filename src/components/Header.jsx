@@ -4,7 +4,7 @@ import { FaRegUser, FaAngleLeft } from "react-icons/fa";
 import Search from "./Search";
 
 const Header = () => {
-  const { user, token } = useContext(StateContext);
+  const { user } = useContext(StateContext);
   const handleLogin = () => {
     const client_id = "febc1979b59e4b039c3e570547f5ae06";
     const redirect_uri = "http://localhost:3000/";
@@ -24,6 +24,9 @@ const Header = () => {
 
     window.location.href = loginUrl;
   };
+
+
+
   return (
     <header className={user ? "bg-stone-900 w-full" : "bg-stone-800 w-full"}>
       <div className="p-4 flex justify-between">
@@ -34,7 +37,7 @@ const Header = () => {
           <Search />
         </div>
 
-        {!token ? (
+        {!user ? (
           <button
             className="bg-white rounded-full px-6 py-2 text-black font-semibold w-fit"
             onClick={handleLogin}

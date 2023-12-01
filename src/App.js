@@ -1,11 +1,11 @@
 import React, { useEffect, useState, createContext } from "react";
-import SpotifyWebApi from "spotify-web-api-js";
-import Home from "./pages/Home.jsx";
+import SearchItems from "./components/SearchItems.jsx";
 import Sidebar from "./components/Sidebar.jsx";
 import Header from "./components/Header.jsx";
 import MusicPlayer from "./components/MusicPlayer.jsx";
+import AlbumsItems from "./components/AlbumsItems.jsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-var spotifyApi = new SpotifyWebApi();
 
 export const StateContext = createContext(null);
 
@@ -13,22 +13,58 @@ const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState(null);
   const [searchResult, setSearchResult] = useState([]);
+  const [artistAlbums, setArtistAlbums] = useState([]);
 
   useEffect(() => {
-    function getAccessTokenFromUrl() {
-      const params = new URLSearchParams(window.location.hash.substring(1));
-      const accessToken = params.get("access_token");
-      setToken(accessToken);
-      spotifyApi.setAccessToken(accessToken);
-      spotifyApi.getMe().then((user) => {
-        setUser(user);
-        console.log(user);
-      });
-    }
-    getAccessTokenFromUrl();
+    const getToken = async () => {
+      const clientId = "febc1979b59e4b039c3e570547f5ae06";
+      const clientSecret = "6812a53cc3454942a6cdb17b86cb8176";
+
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body:
+          "grant_type=client_credentials&client_id=" +
+          clientId +
+          "&client_secret=" +
+          clientSecret,
+      };
+
+      fetch("https://accounts.spotify.com/api/token", requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          setToken(data.access_token);
+        })
+        .catch((error) => console.error("Error:", error));
+    };
+    getToken();
   }, []);
 
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await fetch("https://api.spotify.com/v1/me", {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        console.log("User:", data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    getUser();
+  }, [token]);
+
   const searchSpotify = async (text) => {
+    if (searchResult.length > 0) {
+      setSearchResult([]);
+    }
     try {
       const artistParameters = {
         method: "GET",
@@ -50,7 +86,6 @@ const App = () => {
   };
 
   const handleGetAlbums = async (id) => {
-    console.log(id)
     try {
       const artistParameters = {
         method: "GET",
@@ -65,26 +100,45 @@ const App = () => {
       );
 
       const data = await response.json();
-      console.log("PPPPP", data)
+      setArtistAlbums(data.items);
     } catch (error) {
       console.error("Error searching for artists:", error);
     }
-  }
+  };
 
   return (
-    <StateContext.Provider value={{ user, token, searchResult, searchSpotify, handleGetAlbums }}>
-      <div className="bg-stone-950 text-white h-screen">
-        <div className="p-4 h-full flex flex-col gap-2">
-          <div className="flex items-center gap-2 h-full">
-            <Sidebar />
-            <div className="w-full h-full rounded-lg flex flex-col overflow-hidden" style={{ height: 'calc(100vh - 80px)' }}>
-              <Header />
-              <Home />
+    <StateContext.Provider
+      value={{
+        user,
+        token,
+        searchResult,
+        searchSpotify,
+        handleGetAlbums,
+        artistAlbums,
+      }}
+    >
+      <Router>
+        <div className="bg-stone-950 text-white h-screen">
+          <div className="p-4 h-full flex flex-col gap-2">
+            <div className="flex items-center gap-2 h-full">
+              <Sidebar />
+              <div
+                className="w-full h-full rounded-lg flex flex-col overflow-hidden"
+                style={{ height: "calc(100vh - 80px)" }}
+              >
+                <Header />
+                <div className="overflow-y-auto w-full h-full flex flex-wrap gap-2 bg-stone-900 p-4">
+                  <Routes>
+                    <Route path="/" element={<SearchItems />} />
+                    <Route path="/albums" element={<AlbumsItems />} />
+                  </Routes>
+                </div>
+              </div>
             </div>
+            <MusicPlayer />
           </div>
-          <MusicPlayer />
         </div>
-      </div>
+      </Router>
     </StateContext.Provider>
   );
 };
