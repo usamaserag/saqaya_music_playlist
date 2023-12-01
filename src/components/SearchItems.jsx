@@ -7,6 +7,8 @@ const SearchItems = () => {
   const { searchResult, handleGetAlbums } = useContext(StateContext);
   const navigate = useNavigate();
 
+
+
   return (
     <>
       {searchResult.length > 0 ? (
@@ -16,7 +18,7 @@ const SearchItems = () => {
             item={item}
             handleClick={() => {
               handleGetAlbums(item.id);
-              navigate("/albums");
+              navigate(`/albums/${item.name}`);
             }}
           />
         ))

@@ -47,3 +47,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.cards_container {
+  display: grid;
+  grid-template-columns: repeat( auto-fit, minmax(140px, 1fr) );
+}
