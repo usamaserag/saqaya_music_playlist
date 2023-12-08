@@ -4,61 +4,45 @@ import Sidebar from "./components/Sidebar.jsx";
 import Header from "./components/Header.jsx";
 import MusicPlayer from "./components/MusicPlayer.jsx";
 import AlbumsItems from "./components/AlbumsItems.jsx";
+import Home from "./pages/Home.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { getToken } from "./components/SpotifyLogin.jsx";
 
 export const StateContext = createContext(null);
 
 const App = () => {
   const [token, setToken] = useState("");
+  const [user, setUser] = useState(null);
   const [searchResult, setSearchResult] = useState([]);
   const [artistAlbums, setArtistAlbums] = useState([]);
 
+  useEffect(() => {
+    const _token = getToken();
+    window.location.hash = "";
+    if (_token) {
+      setToken(_token);
+    }
+  }, []);
 
   useEffect(() => {
-    const getToken = async () => {
-      const clientId = "febc1979b59e4b039c3e570547f5ae06";
-      const clientSecret = "6812a53cc3454942a6cdb17b86cb8176";
-
+    const getUser = async () => {
       const requestOptions = {
-        method: "POST",
+        method: "GET",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
-        body:
-          "grant_type=client_credentials&client_id=" +
-          clientId +
-          "&client_secret=" +
-          clientSecret,
       };
 
-      fetch("https://accounts.spotify.com/api/token", requestOptions)
+      fetch("https://api.spotify.com/v1/me", requestOptions)
         .then((response) => response.json())
         .then((data) => {
-          setToken(data.access_token);
+          setUser(data);
         })
         .catch((error) => console.error("Error:", error));
     };
-    getToken();
-
-  }, []);
-
-
-    const getUser = async () => {
-      try {
-        const response = await fetch("https://api.spotify.com/v1/me", {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-          },
-        });
-        const data = await response.json();
-        console.log("data:", data);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
+    getUser();
+  }, [token]);
 
   const searchSpotify = async (text) => {
     if (searchResult.length > 0) {
@@ -105,14 +89,32 @@ const App = () => {
     }
   };
 
+  const getTopItems = async () => {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    };
+    fetch("https://api.spotify.com/v1/me/top/artists", requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("artists", data);
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
   return (
     <StateContext.Provider
       value={{
+        user,
         token,
         searchResult,
         searchSpotify,
         handleGetAlbums,
         artistAlbums,
+        getTopItems,
       }}
     >
       <Router>
@@ -124,10 +126,11 @@ const App = () => {
                 className="w-full h-full rounded-lg flex flex-col overflow-hidden"
                 style={{ height: "calc(100vh - 80px)" }}
               >
-                <Header getUser={getUser} />
+                <Header />
                 <div className="overflow-y-auto w-full h-full gap-2 bg-stone-900 p-4 cards_container">
                   <Routes>
-                    <Route path="/" element={<SearchItems />} />
+                    <Route path="/" element={<Home />} />
+                    <Route path="/search" element={<SearchItems />} />
                     <Route path="/albums/:id" element={<AlbumsItems />} />
                   </Routes>
                 </div>

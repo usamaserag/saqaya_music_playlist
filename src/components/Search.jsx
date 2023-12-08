@@ -18,20 +18,18 @@ const Search = () => {
   };
 
   return (
-    <div className="rounded-lg flex flex-col gap-4 h-full">
-      <form>
-        <div className="flex items-center gap-2 bg">
-          <input
-            className="w-full p-4 rounded-full placeholder-stone-400 text-white outline-none focus:outline-white bg-stone-600"
-            placeholder="What do you want to listen to?"
-            type="text"
-            value={inputSearch}
-            onKeyDown={handleKeyDown}
-            onChange={handleChange}
-          />
-        </div>
-      </form>
-    </div>
+    <form>
+      <div className="flex items-center gap-2">
+        <input
+          className="p-3 rounded-full placeholder-stone-400 text-white outline-none focus:outline-white bg-stone-600 w-80"
+          placeholder="What do you want to listen to?"
+          type="text"
+          value={inputSearch}
+          onKeyDown={handleKeyDown}
+          onChange={handleChange}
+        />
+      </div>
+    </form>
   );
 };
 

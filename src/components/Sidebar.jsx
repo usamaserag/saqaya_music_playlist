@@ -1,6 +1,7 @@
 import React from "react";
 import { GoHome, GoSearch } from "react-icons/go";
 import { FaSpotify } from "react-icons/fa";
+import { Link } from "react-router-dom"
 
 const Sidebar = () => {
   return (
@@ -12,16 +13,16 @@ const Sidebar = () => {
             <span className="hidden md:block">Spotify</span>
           </li>
           <li>
-            <button className="flex items-center gap-4 font-semibold text-lg">
+            <Link to="/" className="flex items-center gap-4 font-semibold text-lg">
               <GoHome />
               <span className="hidden md:block">Home</span>
-            </button>
+            </Link>
           </li>
           <li>
-            <button className="flex items-center gap-4 font-semibold text-lg">
+            <Link to="/search" className="flex items-center gap-4 font-semibold text-lg">
               <GoSearch />
               <span className="hidden md:block">Search</span>
-            </button>
+            </Link>
           </li>
         </ul>
       </div>
