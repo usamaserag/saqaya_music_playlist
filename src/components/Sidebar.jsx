@@ -1,17 +1,17 @@
 import React from "react";
 import { GoHome, GoSearch } from "react-icons/go";
-import { FaSpotify } from "react-icons/fa";
+// import { FaSpotify } from "react-icons/fa";
 import { Link } from "react-router-dom"
 
 const Sidebar = () => {
   return (
-    <aside className="flex flex-col gap-2 col-span-1 text-white h-full">
-      <div className="p-4 rounded-lg bg-stone-900 flex items-center justify-center">
+    <aside className="flex flex-col gap-2 col-span-1 text-white h-full w-60">
+      <div className="p-4 rounded-lg bg-stone-900 flex items-center">
         <ul className="flex flex-col gap-4">
-          <li className="flex items-center gap-2 font-semibold">
+          {/* <li className="flex items-center gap-2 font-semibold">
             <FaSpotify />
             <span className="hidden md:block">Spotify</span>
-          </li>
+          </li> */}
           <li>
             <Link to="/" className="flex items-center gap-4 font-semibold text-lg">
               <GoHome />

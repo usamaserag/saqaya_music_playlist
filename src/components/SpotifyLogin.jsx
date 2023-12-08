@@ -14,11 +14,14 @@ export const loginUrl = `https://accounts.spotify.com/authorize?client_id=${clie
   " "
 )}&response_type=token&show_dialog=true`;
 
-
 export const getToken = () => {
   const params = new URLSearchParams(window.location.hash.substring(1));
   const accessToken = params.get("access_token");
-  console.log(accessToken)
+
+  if (accessToken) {
+    localStorage.setItem("accessToken", accessToken);
+  }
+
   return accessToken;
 };
 

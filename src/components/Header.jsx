@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
 import { StateContext } from "../App";
-import { FaRegUser, FaAngleLeft } from "react-icons/fa";
+import { FaRegUser, FaAngleLeft, FaSignOutAlt } from "react-icons/fa";
 import Search from "./Search";
 import { useNavigate, useLocation } from "react-router-dom";
 import { loginUrl } from "../components/SpotifyLogin";
-
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -12,7 +11,7 @@ const Header = () => {
   const currentPath = location.pathname;
   const isSearchPage = currentPath === "/search";
 
-  const { user, token } = useContext(StateContext);
+  const { user, token, logout } = useContext(StateContext);
   const handleGoBack = () => {
     navigate(-1);
   };
@@ -47,7 +46,9 @@ const Header = () => {
               LOG IN
             </a>
           )}
+          {token && <button onClick={logout} className="bg-stone-950 rounded-full w-8 h-8 flex items-center justify-center ml-4"><FaSignOutAlt /></button>}
         </div>
+
       </div>
     </header>
   );

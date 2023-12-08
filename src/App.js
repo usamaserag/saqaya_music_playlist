@@ -17,10 +17,15 @@ const App = () => {
   const [artistAlbums, setArtistAlbums] = useState([]);
 
   useEffect(() => {
-    const _token = getToken();
-    window.location.hash = "";
-    if (_token) {
-      setToken(_token);
+    const storedToken = localStorage.getItem("accessToken");
+    if (storedToken) {
+      setToken(storedToken);
+    } else {
+      const _token = getToken();
+      window.location.hash = "";
+      if (_token) {
+        setToken(_token);
+      }
     }
   }, []);
 
@@ -89,20 +94,11 @@ const App = () => {
     }
   };
 
-  const getTopItems = async () => {
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    };
-    fetch("https://api.spotify.com/v1/me/top/artists", requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("artists", data);
-      })
-      .catch((error) => console.error("Error:", error));
+
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    setToken("");
   };
 
   return (
@@ -114,7 +110,7 @@ const App = () => {
         searchSpotify,
         handleGetAlbums,
         artistAlbums,
-        getTopItems,
+        logout,
       }}
     >
       <Router>

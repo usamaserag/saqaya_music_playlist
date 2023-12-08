@@ -1,8 +1,12 @@
 import React from "react";
-
+import PopularPlaylists from "../components/PopularPlaylists";
 
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <div>
+      <PopularPlaylists />
+    </div>
+  );
 };
 
 export default Home;

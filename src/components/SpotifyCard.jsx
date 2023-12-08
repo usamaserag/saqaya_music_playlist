@@ -5,14 +5,14 @@ const SpotifyCard = ({ item, handleClick }) => {
 
   return (
     <div
-      className="shadow p-3 rounded-md bg-stone-800 flex flex-col gap-2"
+      className="shadow p-3 rounded-md bg-stone-800 flex flex-col gap-2 cursor-pointer"
       onClick={() => handleClick(item.id)}
     >
-      <div className="rounded-full h-28 w-28 m-auto">
+      <div className="h-28 w-full m-auto rounded-lg">
         <img
           src={item.images.length > 0 ? item.images[0].url : defaultImage}
           alt="image_artist"
-          className="object-cover rounded-full h-28 w-28"
+          className="object-cover h-28 w-full rounded-lg"
         />
       </div>
       <div className="flex flex-col gap-2">
