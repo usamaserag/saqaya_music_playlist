@@ -29,6 +29,7 @@ const PopularPlaylists = () => {
 
         const data = await response.json();
         setPopularPlaylists(data);
+
       } catch (error) {
         console.error("Error fetching popular playlists:", error);
       }
@@ -54,8 +55,6 @@ const PopularPlaylists = () => {
         <Swiper
           spaceBetween={16}
           breakpoints={breakpoints}
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
         >
           {popularPlaylists.playlists && popularPlaylists.playlists.items && (
             <Swiper

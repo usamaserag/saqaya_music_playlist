@@ -7,8 +7,6 @@ const SearchItems = () => {
   const { searchResult, handleGetAlbums } = useContext(StateContext);
   const navigate = useNavigate();
 
-
-
   return (
     <>
       {searchResult.length > 0 ? (
@@ -23,7 +21,9 @@ const SearchItems = () => {
           />
         ))
       ) : (
-        <div>No Items</div>
+        <div>
+          <span>No item available</span>
+        </div>
       )}
     </>
   );

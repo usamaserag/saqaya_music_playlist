@@ -46,7 +46,7 @@ const Header = () => {
               LOG IN
             </a>
           )}
-          {token && <button onClick={logout} className="bg-stone-950 rounded-full w-8 h-8 flex items-center justify-center ml-4"><FaSignOutAlt /></button>}
+          {token && <button onClick={logout} className="bg-stone-950 rounded-full w-8 h-8 flex items-center justify-center ml-2"><FaSignOutAlt /></button>}
         </div>
 
       </div>

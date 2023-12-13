@@ -7,6 +7,7 @@ import AlbumsItems from "./components/AlbumsItems.jsx";
 import Home from "./pages/Home.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { getToken } from "./components/SpotifyLogin.jsx";
+import Tracks from "./components/Tracks.jsx";
 
 export const StateContext = createContext(null);
 
@@ -15,6 +16,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [searchResult, setSearchResult] = useState([]);
   const [artistAlbums, setArtistAlbums] = useState([]);
+  const [tracks, setTracks] = useState([]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("accessToken");
@@ -93,8 +95,25 @@ const App = () => {
       console.error("Error searching for artists:", error);
     }
   };
-
-
+  const handleGetTracks = async (id) => {
+    try {
+      const artistParameters = {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+      };
+      const response = await fetch(
+        `https://api.spotify.com/v1/albums/${id}/tracks`,
+        artistParameters
+      );
+      const data = await response.json();
+      setTracks(data.items);
+    } catch (error) {
+      console.error("Error fetching tracks:", error);
+    }
+  };
 
   const logout = () => {
     localStorage.removeItem("accessToken");
@@ -109,7 +128,10 @@ const App = () => {
         searchResult,
         searchSpotify,
         handleGetAlbums,
+        handleGetTracks,
         artistAlbums,
+        tracks,
+        setTracks,
         logout,
       }}
     >
@@ -128,6 +150,7 @@ const App = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/search" element={<SearchItems />} />
                     <Route path="/albums/:id" element={<AlbumsItems />} />
+                    <Route path="/tracks/:id" element={<Tracks />} />
                   </Routes>
                 </div>
               </div>

@@ -1,20 +1,27 @@
 import React, { useContext } from "react";
 import { StateContext } from "../App";
 import SpotifyCard from "./SpotifyCard.jsx";
-import Loading from "./Loading.jsx";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const AlbumsItems = () => {
-  const { artistAlbums } = useContext(StateContext);
+  const { artistAlbums, handleGetTracks } = useContext(StateContext);
+  const navigate = useNavigate();
+  const { id } = useParams();
+
 
   return (
     <>
       {artistAlbums?.length > 0 ? (
         artistAlbums.map((item) => (
-          <SpotifyCard key={item.id} item={item}/>
+          <SpotifyCard key={item.id} item={item} handleClick={() => {
+            handleGetTracks(item.id);
+            navigate(`/tracks/${item.id}`);
+          }}/>
         ))
       ) : (
         <div>
-          <Loading />
+          <span>No item available</span>
         </div>
       )}
     </>
