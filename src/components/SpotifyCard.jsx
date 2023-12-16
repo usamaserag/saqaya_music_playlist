@@ -5,7 +5,7 @@ const SpotifyCard = ({ item, handleClick }) => {
 
   return (
     <div
-      className="shadow p-3 rounded-md bg-stone-800 flex flex-col gap-2 cursor-pointer"
+      className="shadow p-3 rounded-md bg-base-100 flex flex-col gap-2 cursor-pointer"
       onClick={() => handleClick(item.id)}
     >
       <div className="w-full h-32 m-auto rounded-lg">

@@ -4,19 +4,22 @@ import Sidebar from "./components/Sidebar.jsx";
 import Header from "./components/Header.jsx";
 import MusicPlayer from "./components/MusicPlayer.jsx";
 import AlbumsItems from "./components/AlbumsItems.jsx";
-import Home from "./pages/Home.jsx";
+// import Home from "./pages/Home.jsx";
+import Playlist from "./pages/Playlist.jsx"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { getToken } from "./components/SpotifyLogin.jsx";
+import apiService from "./api/apiService.js";
+import { getToken } from "./api/spotifyLogin.js";
 import Tracks from "./components/Tracks.jsx";
 
 export const StateContext = createContext(null);
 
 const App = () => {
   const [token, setToken] = useState("");
-  const [user, setUser] = useState(null);
   const [searchResult, setSearchResult] = useState([]);
   const [artistAlbums, setArtistAlbums] = useState([]);
   const [tracks, setTracks] = useState([]);
+  const [playlists, setPlaylists] = useState([]);
+  const [singlePlaylist, setSinglePlaylist] = useState([]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("accessToken");
@@ -32,23 +35,19 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const getUser = async () => {
-      const requestOptions = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
+    const getUserPlaylist = async () => {
+      try {
+        const data = await apiService.get(`me/playlists`, {
           Authorization: "Bearer " + token,
-        },
-      };
-
-      fetch("https://api.spotify.com/v1/me", requestOptions)
-        .then((response) => response.json())
-        .then((data) => {
-          setUser(data);
-        })
-        .catch((error) => console.error("Error:", error));
+        });
+        console.log("Data", data)
+        // setPlaylists(data.items);
+      } catch (error) {
+        console.error("Error fetching tracks:", error);
+      }
     };
-    getUser();
+
+    getUserPlaylist();
   }, [token]);
 
   const searchSpotify = async (text) => {
@@ -95,6 +94,28 @@ const App = () => {
       console.error("Error searching for artists:", error);
     }
   };
+
+  const handleGetPlaylist = async (id) => {
+    try {
+      const artistParameters = {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+      };
+      const response = await fetch(
+        `https://api.spotify.com/v1/playlists/${id}`,
+        artistParameters
+      );
+
+      const data = await response.json();
+      setSinglePlaylist(data)
+    } catch (error) {
+      console.error("Error searching for artists:", error);
+    }
+  };
+
   const handleGetTracks = async (id) => {
     try {
       const artistParameters = {
@@ -116,6 +137,7 @@ const App = () => {
   };
 
   const logout = () => {
+    setPlaylists([]);
     localStorage.removeItem("accessToken");
     setToken("");
   };
@@ -123,7 +145,6 @@ const App = () => {
   return (
     <StateContext.Provider
       value={{
-        user,
         token,
         searchResult,
         searchSpotify,
@@ -133,10 +154,13 @@ const App = () => {
         tracks,
         setTracks,
         logout,
+        playlists,
+        handleGetPlaylist,
+        singlePlaylist,
       }}
     >
       <Router>
-        <div className="bg-stone-950 text-white h-screen">
+        <div className="text-white h-screen">
           <div className="p-4 h-full flex flex-col gap-2">
             <div className="flex items-center gap-2 h-full">
               <Sidebar />
@@ -145,12 +169,13 @@ const App = () => {
                 style={{ height: "calc(100vh - 80px)" }}
               >
                 <Header />
-                <div className="overflow-y-auto w-full h-full gap-2 bg-stone-900 p-4 cards_container">
+                <div className="overflow-y-auto w-full h-full gap-2 bg-base-300 p-4 cards_container">
                   <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/search" element={<SearchItems />} />
+                    {/* <Route path="/" element={<Home />} /> */}
+                    <Route except path="/search" element={<SearchItems />} />
                     <Route path="/albums/:id" element={<AlbumsItems />} />
                     <Route path="/tracks/:id" element={<Tracks />} />
+                    <Route path="/playlist/:id" element={<Playlist />} />
                   </Routes>
                 </div>
               </div>

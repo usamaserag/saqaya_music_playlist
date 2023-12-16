@@ -2,13 +2,10 @@ import React, { useContext } from "react";
 import { StateContext } from "../App";
 import SpotifyCard from "./SpotifyCard.jsx";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
 const AlbumsItems = () => {
   const { artistAlbums, handleGetTracks } = useContext(StateContext);
   const navigate = useNavigate();
-  const { id } = useParams();
-
 
   return (
     <>
