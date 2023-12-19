@@ -40,8 +40,7 @@ const App = () => {
         const data = await apiService.get(`me/playlists`, {
           Authorization: "Bearer " + token,
         });
-        console.log("Data", data)
-        // setPlaylists(data.items);
+        setPlaylists(data.items);
       } catch (error) {
         console.error("Error fetching tracks:", error);
       }
@@ -157,6 +156,7 @@ const App = () => {
         playlists,
         handleGetPlaylist,
         singlePlaylist,
+        setSinglePlaylist,
       }}
     >
       <Router>

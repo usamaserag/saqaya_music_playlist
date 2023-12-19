@@ -12,10 +12,6 @@ const Sidebar = () => {
   const { playlists, handleGetPlaylist } = useContext(StateContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(">>>>>>>>>>>.", playlists)
-  }, [playlists])
-
   return (
     <aside className="flex flex-col gap-2 h-full">
       <div className="p-4 rounded-lg bg-base-300 flex items-center justify-center">

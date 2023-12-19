@@ -3,19 +3,18 @@ import { FaEllipsisH } from "react-icons/fa";
 import { StateContext } from "../App";
 import apiService from "../api/apiService";
 
-const Dropdown = ({track}) => {
+const Dropdown = ({ track, handleDelete }) => {
   const { playlists, token } = useContext(StateContext);
 
   const handleAddTrackToList = async (playlistId) => {
     try {
-        const result = await apiService.addTrackToPlaylist(playlistId, track.id, {
-          Authorization: "Bearer " + token,
-        });
-        console(">>>>", result)
-      } catch (error) {
-        console.error(error);
-      }
-  }
+      const result = await apiService.addTrackToPlaylist(playlistId, track.id, {
+        Authorization: "Bearer " + token,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="dropdown dropdown-end">
@@ -26,9 +25,7 @@ const Dropdown = ({track}) => {
         tabIndex={0}
         className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
       >
-        <li className="p-2">
-          Add to playlist
-        </li>
+        <li className="p-2">Add to playlist</li>
         {playlists.length > 0 &&
           playlists.map((list) => (
             <li
@@ -39,6 +36,7 @@ const Dropdown = ({track}) => {
               {list.name}
             </li>
           ))}
+          <button onClick={handleDelete}>Delete</button>
       </ul>
     </div>
   );

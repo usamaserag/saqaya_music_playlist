@@ -58,19 +58,41 @@ const apiService = {
       throw error;
     }
   },
-  addTrackToPlaylist: async (playlistId, trackUri, headers = {}) => {
+  DeletePlaylist: async (playlistId, trackUri, headers = {}) => {
     try {
       const response = await fetch(`${BASE_URL}/playlists/${playlistId}/tracks`, {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           ...headers,
         },
         body: JSON.stringify({
           uris: [`spotify:track:${trackUri}`],
-          "position": 0
         }),
       });
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error creating playlist:", error);
+      throw error;
+    }
+  },
+  addTrackToPlaylist: async (playlistId, trackUri, headers = {}) => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/playlists/${playlistId}/tracks`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...headers,
+          },
+          body: JSON.stringify({
+            uris: [`spotify:track:${trackUri}`],
+          }),
+        }
+      );
 
       const data = await response.json();
       return data;
