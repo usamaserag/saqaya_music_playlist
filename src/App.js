@@ -169,7 +169,7 @@ const App = () => {
                 style={{ height: "calc(100vh - 80px)" }}
               >
                 <Header />
-                <div className="overflow-y-auto w-full h-full gap-2 bg-base-300 p-4 cards_container">
+                <div className="overflow-y-auto w-full h-full gap-2 bg-base-300 p-4 cards_container relative">
                   <Routes>
                     {/* <Route path="/" element={<Home />} /> */}
                     <Route except path="/search" element={<SearchItems />} />

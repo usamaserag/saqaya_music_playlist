@@ -17,26 +17,29 @@ const Dropdown = ({ track, handleDelete }) => {
   };
 
   return (
-    <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="m-1">
+    <div class="group inline-block">
+      <button class="outline-none focus:outline-none flex items-center">
         <FaEllipsisH />
-      </div>
-      <ul
-        tabIndex={0}
-        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-      >
-        <li className="p-2">Add to playlist</li>
-        {playlists.length > 0 &&
-          playlists.map((list) => (
-            <li
-              key={list.id}
-              className="hover:bg-base-200 rounded-md whitespace-nowrap overflow-hidden overflow-ellipsis max-w-full p-2 cursor-pointer"
-              onClick={() => handleAddTrackToList(list.id)}
-            >
-              {list.name}
-            </li>
-          ))}
-          <button onClick={handleDelete}>Delete</button>
+      </button>
+      <ul class="bg-base-100 mt-2 rounded-sm transform scale-0 group-hover:scale-100 absolute right-0 transition duration-150 ease-in-out origin-top w-32">
+        <li class="rounded-sm relative px-3 py-1 hover:bg-base-200">
+          <button class="w-full text-left flex items-center outline-none focus:outline-none">
+            <span class="pr-1 flex-1">Playlists</span>
+          </button>
+          <ul class="bg-base-100 rounded-sm absolute top-0 left-0 transition duration-150 ease-in-out origin-top-left w-32">
+            {playlists.length > 0 &&
+              playlists.map((list) => (
+                <li
+                  key={list.id}
+                  onClick={() => handleAddTrackToList(list.id)}
+                  class="px-3 py-1 hover:bg-base-200 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-full cursor-pointer"
+                >
+                  {list.name}
+                </li>
+              ))}
+          </ul>
+        </li>
+        <li onClick={handleDelete} class="rounded-sm px-3 py-1 hover:bg-base-200 cursor-pointer">Delete</li>
       </ul>
     </div>
   );

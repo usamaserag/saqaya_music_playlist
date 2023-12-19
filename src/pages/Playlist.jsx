@@ -52,11 +52,11 @@ const Playlist = () => {
           <h2 className="text-5xl font-bold">{singlePlaylist.name}</h2>
           <div className="text-xs">{singlePlaylist.type}</div>
           <div className="text-xs">
-            <span>Created by : </span>
-            <span className="font-bold">
+            <span className="mr-1">Created by:</span>
+            <span className="font-bold mr-1">
               {singlePlaylist.owner && singlePlaylist.owner.display_name} .
             </span>
-            <span>
+            <span className="mr-1">
               {singlePlaylist.tracks && singlePlaylist.tracks.items
                 ? `${singlePlaylist.tracks.items.length} ${
                     singlePlaylist.tracks.items.length === 1
