@@ -4,8 +4,8 @@ import Sidebar from "./components/Sidebar.jsx";
 import Header from "./components/Header.jsx";
 import MusicPlayer from "./components/MusicPlayer.jsx";
 import AlbumsItems from "./components/AlbumsItems.jsx";
-// import Home from "./pages/Home.jsx";
-import Playlist from "./pages/Playlist.jsx"
+import Home from "./pages/Home.jsx";
+import Playlist from "./pages/Playlist.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import apiService from "./api/apiService.js";
 import { getToken } from "./api/spotifyLogin.js";
@@ -109,7 +109,7 @@ const App = () => {
       );
 
       const data = await response.json();
-      setSinglePlaylist(data)
+      setSinglePlaylist(data);
     } catch (error) {
       console.error("Error searching for artists:", error);
     }
@@ -154,6 +154,7 @@ const App = () => {
         setTracks,
         logout,
         playlists,
+        setPlaylists,
         handleGetPlaylist,
         singlePlaylist,
         setSinglePlaylist,
@@ -171,8 +172,8 @@ const App = () => {
                 <Header />
                 <div className="overflow-y-auto w-full h-full gap-2 bg-base-300 p-4 cards_container relative">
                   <Routes>
-                    {/* <Route path="/" element={<Home />} /> */}
-                    <Route except path="/search" element={<SearchItems />} />
+                    <Route path="/" element={<Home />} />
+                    <Route path="/search" element={<SearchItems />} />
                     <Route path="/albums/:id" element={<AlbumsItems />} />
                     <Route path="/tracks/:id" element={<Tracks />} />
                     <Route path="/playlist/:id" element={<Playlist />} />

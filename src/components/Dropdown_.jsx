@@ -58,7 +58,7 @@ const Dropdown_ = ({ track, handleDelete }) => {
 
   const handleAddTrackToList = async (playlistId) => {
     try {
-      const result = await apiService.addTrackToPlaylist(playlistId, track.id, {
+      await apiService.addTrackToPlaylist(playlistId, track.id, {
         Authorization: 'Bearer ' + token,
       });
     } catch (error) {
@@ -68,7 +68,7 @@ const Dropdown_ = ({ track, handleDelete }) => {
 
   const menu = (
     <Menu>
-      <Menu.SubMenu title="Playlists">
+      <Menu.SubMenu title="Add to playlist">
         {playlists.length > 0 &&
           playlists.map((list) => (
             <Menu.Item key={list.id} onClick={() => handleAddTrackToList(list.id)}>

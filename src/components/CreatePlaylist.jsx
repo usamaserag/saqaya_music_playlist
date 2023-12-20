@@ -3,15 +3,16 @@ import apiService from "../api/apiService.js";
 import { StateContext } from "../App";
 
 const CreatePlaylist = ({closeModal}) => {
-  const { token } = useContext(StateContext);
+  const { token, setPlaylists } = useContext(StateContext);
   const [playlistName, setPlaylistName] = useState("");
   const [playlistDescription, setPlaylistDescription] = useState("");
 
   const handleCreatePlaylist = async () => {
     try {
-      await apiService.createPlaylist(playlistName, playlistDescription, {
+      const result = await apiService.createPlaylist(playlistName, playlistDescription, {
         Authorization: "Bearer " + token,
       });
+      setPlaylists((prevPlaylists) => [...prevPlaylists, result]);
       closeModal()
     } catch (error) {}
   };

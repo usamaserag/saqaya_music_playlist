@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-// import { GoHome } from "react-icons/go";
+import React, { useContext } from "react";
+import { GoHome } from "react-icons/go";
 import { GoSearch } from "react-icons/go";
 import { Link } from "react-router-dom";
 import CreatePlaylist from "./CreatePlaylist";
@@ -16,7 +16,7 @@ const Sidebar = () => {
     <aside className="flex flex-col gap-2 h-full">
       <div className="p-4 rounded-lg bg-base-300 flex items-center justify-center">
         <ul className="flex flex-col gap-4">
-          {/* <li>
+          <li>
             <Link
               to="/"
               className="flex items-center gap-4 font-semibold text-lg"
@@ -24,7 +24,7 @@ const Sidebar = () => {
               <GoHome />
               <span className="hidden md:block">Home</span>
             </Link>
-          </li> */}
+          </li>
           <li>
             <Link
               to="/search"
@@ -41,10 +41,10 @@ const Sidebar = () => {
           <CreatePlaylist />
         </Modal>
 
-        <h3 className="md:py-1 md:px-6 rounded-full bg-base-100 inline-block">
+        <Link to="/playlist" className="md:py-1 md:px-6 rounded-full bg-white text-base-300 font-bold inline-block">
           <FaList className="md:hidden" />
           <span className="hidden md:block">Playlist</span>
-        </h3>
+        </Link>
         <div className="flex flex-col">
           {playlists.length > 0 &&
             playlists.map((list) => (

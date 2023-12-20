@@ -1,12 +1,12 @@
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/effect-fade";
+// import "swiper/css";
+// import "swiper/css/navigation";
+// import "swiper/css/pagination";
+// import "swiper/css/effect-fade";
 
 import React, { useContext, useEffect, useState } from "react";
 import { StateContext } from "../App";
 import SpotifyCard from "./SpotifyCard";
-import { Swiper, SwiperSlide } from "swiper/react";
+// import { Swiper, SwiperSlide } from "swiper/react";
 
 const PopularPlaylists = () => {
   const [popularPlaylists, setPopularPlaylists] = useState([]);
@@ -38,31 +38,23 @@ const PopularPlaylists = () => {
     getPopularPlaylists();
   }, [token]);
 
-  const breakpoints = {
-    320: { slidesPerView: 1 },
-    480: { slidesPerView: 2 },
-    768: { slidesPerView: 3 },
-    1024: { slidesPerView: 5 },
-  };
+  // const breakpoints = {
+  //   320: { slidesPerView: 1 },
+  //   480: { slidesPerView: 2 },
+  //   768: { slidesPerView: 3 },
+  //   1024: { slidesPerView: 5 },
+  // };
 
   return (
     <div>
       <b className="text-white text-xl my-4 font-semibold">
         {popularPlaylists.message}
       </b>
-      <div className="mt-4">
+      <div className="mt-4 overflow-y-auto w-full h-full gap-2 bg-base-300 cards_container relative">
           {popularPlaylists.playlists && popularPlaylists.playlists.items && (
-            <Swiper
-              spaceBetween={16}
-              breakpoints={breakpoints}
-              className="cards_container"
-            >
-              {popularPlaylists.playlists.items.map((item) => (
-                <SwiperSlide key={item.id}>
-                  <SpotifyCard item={item} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            popularPlaylists.playlists.items.map((item) => (
+              <SpotifyCard key={item.id} item={item} />
+            ))
           )}
       </div>
     </div>
