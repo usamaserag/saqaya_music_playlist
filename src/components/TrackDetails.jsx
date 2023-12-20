@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import Dropdown from "./Dropdown";
+import Dropdown_ from "./Dropdown_";
 import apiService from "../api/apiService";
 import { StateContext } from "../App";
 
@@ -61,7 +61,7 @@ const TrackDetails = ({ item, index }) => {
       </div>
       <div className="flex items-center gap-2">
         <div>{formatDuration(item.duration_ms)}</div>
-        <Dropdown track={item} handleDelete={handleDeleteTrackFromPlaylist} />
+        <Dropdown_ track={item} handleDelete={handleDeleteTrackFromPlaylist} />
       </div>
     </div>
   );
