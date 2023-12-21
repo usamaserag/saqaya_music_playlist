@@ -36,19 +36,31 @@ const PopularPlaylists = () => {
 
   return (
     <div>
-      <b className="text-white text-xl my-4 font-semibold">
-        {popularPlaylists.message}
-      </b>
-      <div className="mt-4 w-full h-full gap-2 bg-base-300 cards_container relative">
-          {popularPlaylists.playlists && popularPlaylists.playlists.items && (
-            popularPlaylists.playlists.items.map((item) => (
-              <SpotifyCard key={item.id} item={item} handleClick={() => {
-                handleGetPlaylist(item.id);
-                navigate(`/playlist/${item.name}`);
-              }} />
-            ))
-          )}
-      </div>
+      {popularPlaylists.playlists && popularPlaylists.playlists.items ? (
+        <div>
+          <b className="text-white text-xl my-4 font-semibold">
+            {popularPlaylists.message}
+          </b>
+          <div className="mt-4 w-full h-full gap-2 bg-base-300 cards_container relative">
+            {popularPlaylists.playlists &&
+              popularPlaylists.playlists.items &&
+              popularPlaylists.playlists.items.map((item) => (
+                <SpotifyCard
+                  key={item.id}
+                  item={item}
+                  handleClick={() => {
+                    handleGetPlaylist(item.id);
+                    navigate(`/playlist/${item.name}`);
+                  }}
+                />
+              ))}
+          </div>
+        </div>
+      ) : (
+        <h2 className="text-3xl font-medium">
+          Welcome, Log in explore and enjoy the latest tracks on Spotify.
+        </h2>
+      )}
     </div>
   );
 };

@@ -54,19 +54,9 @@ const App = () => {
       setSearchResult([]);
     }
     try {
-      const artistParameters = {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      };
-      const response = await fetch(
-        `https://api.spotify.com/v1/search?q=${text}&type=artist`,
-        artistParameters
-      );
-
-      const data = await response.json();
+      const data = await apiService.get(`search?q=${text}&type=artist`, {
+        Authorization: "Bearer " + token,
+      });
       setSearchResult(data.artists.items);
     } catch (error) {
       console.error("Error searching for artists:", error);
@@ -75,19 +65,9 @@ const App = () => {
 
   const handleGetAlbums = async (id) => {
     try {
-      const artistParameters = {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      };
-      const response = await fetch(
-        `https://api.spotify.com/v1/artists/${id}/albums`,
-        artistParameters
-      );
-
-      const data = await response.json();
+      const data = await apiService.get(`artists/${id}/albums`, {
+        Authorization: "Bearer " + token,
+      });
       setArtistAlbums(data.items);
     } catch (error) {
       console.error("Error searching for artists:", error);
@@ -96,19 +76,9 @@ const App = () => {
 
   const handleGetPlaylist = async (id) => {
     try {
-      const artistParameters = {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      };
-      const response = await fetch(
-        `https://api.spotify.com/v1/playlists/${id}`,
-        artistParameters
-      );
-
-      const data = await response.json();
+      const data = await apiService.get(`playlists/${id}`, {
+        Authorization: "Bearer " + token,
+      });
       setSinglePlaylist(data);
     } catch (error) {
       console.error("Error searching for artists:", error);
@@ -116,37 +86,23 @@ const App = () => {
   };
 
   const handleGetTracks = async (id) => {
-    console.log(id)
     try {
-      const artistParameters = {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      };
-      const response = await fetch(
-        `https://api.spotify.com/v1/albums/${id}/tracks`,
-        artistParameters
-      );
-      const data = await response.json();
-      console.log(data)
+
+      const data = await apiService.get(`albums/${id}/tracks`, {
+        Authorization: "Bearer " + token,
+      });
       setTracks(data.items);
     } catch (error) {
       console.error("Error fetching tracks:", error);
     }
   };
 
-  const logout = () => {
-    setPlaylists([]);
-    localStorage.removeItem("accessToken");
-    setToken("");
-  };
 
   return (
     <StateContext.Provider
       value={{
         token,
+        setToken,
         searchResult,
         searchSpotify,
         handleGetAlbums,
@@ -154,7 +110,6 @@ const App = () => {
         artistAlbums,
         tracks,
         setTracks,
-        logout,
         playlists,
         setPlaylists,
         handleGetPlaylist,
@@ -165,7 +120,7 @@ const App = () => {
       <Router>
         <div className="text-white h-screen">
           <div className="p-4 h-full flex flex-col gap-2">
-            <div className="flex items-center gap-2 h-full">
+            <div className="flex gap-2 h-full">
               <Sidebar />
               <div
                 className="w-full h-full rounded-lg flex flex-col overflow-hidden"
@@ -174,7 +129,7 @@ const App = () => {
                 <Header />
                 <div className="overflow-y-auto w-full h-full gap-2 bg-base-300 p-4 cards_container relative">
                   <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route exact path="/" element={<Home />} />
                     <Route path="/search" element={<SearchItems />} />
                     <Route path="/albums/:id" element={<AlbumsItems />} />
                     <Route path="/tracks/:id" element={<Tracks />} />

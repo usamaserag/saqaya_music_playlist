@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { StateContext } from "../App";
 import SpotifyCard from "./SpotifyCard.jsx";
 import { useNavigate } from "react-router-dom";
+import Loading from "./Loading.jsx";
 
 const AlbumsItems = () => {
   const { artistAlbums, handleGetTracks } = useContext(StateContext);
@@ -18,7 +19,7 @@ const AlbumsItems = () => {
         ))
       ) : (
         <div>
-          <span>No item available</span>
+          <Loading />
         </div>
       )}
     </>

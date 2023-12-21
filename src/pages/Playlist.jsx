@@ -19,11 +19,19 @@ const Playlist = () => {
 
   function formatDuration(durationInMilliseconds) {
     const totalSeconds = Math.floor(durationInMilliseconds / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
+    const hours = Math.floor(totalSeconds / 3600);
+    const remainingMinutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
-    const formattedMinutes = String(minutes).padStart(2, "0");
+
+    const formattedHours = hours > 9 ? String(hours) : hours;
+    const formattedMinutes = String(remainingMinutes).padStart(2, "0");
     const formattedSeconds = String(seconds).padStart(2, "0");
-    return `${formattedMinutes} min ${formattedSeconds} sec`;
+
+    if (hours > 0) {
+      return `${formattedHours} hr ${formattedMinutes} min ${formattedSeconds} sec`;
+    } else {
+      return `${formattedMinutes} min ${formattedSeconds} sec`;
+    }
   }
 
   if (!singlePlaylist) {

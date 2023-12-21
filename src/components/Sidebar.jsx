@@ -4,12 +4,12 @@ import { GoSearch } from "react-icons/go";
 import { Link } from "react-router-dom";
 import CreatePlaylist from "./CreatePlaylist";
 import Modal from "./Modal";
-import { FaPlus, FaList } from "react-icons/fa";
 import { StateContext } from "../App";
 import { useNavigate } from "react-router-dom";
+import { FiPlus } from "react-icons/fi";
 
 const Sidebar = () => {
-  const { playlists, handleGetPlaylist } = useContext(StateContext);
+  const { playlists, handleGetPlaylist, token } = useContext(StateContext);
   const navigate = useNavigate();
 
   return (
@@ -22,7 +22,7 @@ const Sidebar = () => {
               className="flex items-center gap-4 font-semibold text-lg"
             >
               <GoHome />
-              <span className="hidden md:block">Home</span>
+              <span className="block">Home</span>
             </Link>
           </li>
           <li>
@@ -31,22 +31,34 @@ const Sidebar = () => {
               className="flex items-center gap-4 font-semibold text-lg"
             >
               <GoSearch />
-              <span className="hidden md:block">Search</span>
+              <span className="block">Search</span>
             </Link>
           </li>
         </ul>
       </div>
-      <div className="p-4 rounded-lg bg-base-300 flex flex-col flex-grow gap-4 items-start justify-start">
-        <Modal btnText={<FaPlus />} id_modal="playlist">
-          <CreatePlaylist />
-        </Modal>
+      <div className="p-4 rounded-lg bg-base-300 flex flex-col flex-grow gap-4 items-start justify-start overflow-hidden">
+        {token && (
+          <div className="flex flex-col gap-4">
+            <Modal
+              btnText={
+                <div className="flex items-center gap-1">
+                  <FiPlus className="text-lg" />
+                  <span>Create playlist</span>
+                </div>
+              }
+              id_modal="playlist"
+            >
+              <CreatePlaylist />
+            </Modal>
+            <div className="py-1 px-6 rounded-full bg-white text-base-300 font-bold inline-block">
+              <span>Playlist</span>
+            </div>
+          </div>
+        )}
 
-        <Link to="/playlist" className="md:py-1 md:px-6 rounded-full bg-white text-base-300 font-bold inline-block">
-          <FaList className="md:hidden" />
-          <span className="hidden md:block">Playlist</span>
-        </Link>
-        <div className="flex flex-col">
-          {playlists.length > 0 &&
+        <div className="flex flex-col w-full h-full flex-grow-0 flex-shrink-0">
+          {playlists &&
+            playlists.length > 0 &&
             playlists.map((list) => (
               <div key={list.id}>
                 <div

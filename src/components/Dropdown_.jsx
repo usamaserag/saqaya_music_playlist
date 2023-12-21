@@ -47,11 +47,11 @@
 
 // export default Dropdown;
 
-import React, { useContext } from 'react';
-import { Dropdown as AntDropdown, Menu } from 'antd';
-import { FaEllipsisH } from 'react-icons/fa';
-import { StateContext } from '../App';
-import apiService from '../api/apiService';
+import React, { useContext } from "react";
+import { Dropdown as AntDropdown, Menu } from "antd";
+import { FaEllipsisH } from "react-icons/fa";
+import { StateContext } from "../App";
+import apiService from "../api/apiService";
 
 const Dropdown_ = ({ track, handleDelete }) => {
   const { playlists, token } = useContext(StateContext);
@@ -59,7 +59,7 @@ const Dropdown_ = ({ track, handleDelete }) => {
   const handleAddTrackToList = async (playlistId) => {
     try {
       await apiService.addTrackToPlaylist(playlistId, track.id, {
-        Authorization: 'Bearer ' + token,
+        Authorization: "Bearer " + token,
       });
     } catch (error) {
       console.error(error);
@@ -69,9 +69,13 @@ const Dropdown_ = ({ track, handleDelete }) => {
   const menu = (
     <Menu>
       <Menu.SubMenu title="Add to playlist">
-        {playlists.length > 0 &&
+        {playlists &&
+          playlists.length > 0 &&
           playlists.map((list) => (
-            <Menu.Item key={list.id} onClick={() => handleAddTrackToList(list.id)}>
+            <Menu.Item
+              key={list.id}
+              onClick={() => handleAddTrackToList(list.id)}
+            >
               {list.name}
             </Menu.Item>
           ))}
@@ -81,7 +85,7 @@ const Dropdown_ = ({ track, handleDelete }) => {
   );
 
   return (
-    <AntDropdown overlay={menu} trigger={['click']} placement="bottomRight">
+    <AntDropdown overlay={menu} trigger={["click"]} placement="bottomRight">
       <button className="outline-none focus:outline-none flex items-center">
         <FaEllipsisH />
       </button>
@@ -90,5 +94,3 @@ const Dropdown_ = ({ track, handleDelete }) => {
 };
 
 export default Dropdown_;
-
-

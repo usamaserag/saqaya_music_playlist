@@ -4,6 +4,7 @@ import { FaRegUser, FaAngleLeft, FaSignOutAlt } from "react-icons/fa";
 import Search from "./Search";
 import { useNavigate, useLocation } from "react-router-dom";
 import { loginUrl } from "../components/SpotifyLogin";
+
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -11,9 +12,16 @@ const Header = () => {
   const currentPath = location.pathname;
   const isSearchPage = currentPath === "/search";
 
-  const { token, logout } = useContext(StateContext);
+  const { token, setPlaylists, setToken } = useContext(StateContext);
   const handleGoBack = () => {
     navigate(-1);
+  };
+
+  const logout = () => {
+    setPlaylists([]);
+    localStorage.removeItem("accessToken");
+    setToken("");
+    navigate("/");
   };
 
   return (

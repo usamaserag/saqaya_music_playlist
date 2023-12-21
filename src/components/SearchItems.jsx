@@ -4,8 +4,16 @@ import SpotifyCard from "./SpotifyCard.jsx";
 import { useNavigate } from "react-router-dom";
 
 const SearchItems = () => {
-  const { searchResult, handleGetAlbums } = useContext(StateContext);
+  const { searchResult, handleGetAlbums, token } = useContext(StateContext);
   const navigate = useNavigate();
+
+  if (!token) {
+    return (
+      <h2 className="text-3xl font-medium">
+        Welcome, Log in explore and enjoy the latest tracks on Spotify.
+      </h2>
+    );
+  }
 
   return (
     <>
@@ -21,9 +29,7 @@ const SearchItems = () => {
           />
         ))
       ) : (
-        <div>
-          <span>No item available</span>
-        </div>
+        <div>Start searching for your favorite artist</div>
       )}
     </>
   );
