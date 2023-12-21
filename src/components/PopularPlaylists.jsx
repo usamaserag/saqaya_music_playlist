@@ -1,16 +1,12 @@
-// import "swiper/css";
-// import "swiper/css/navigation";
-// import "swiper/css/pagination";
-// import "swiper/css/effect-fade";
-
 import React, { useContext, useEffect, useState } from "react";
 import { StateContext } from "../App";
 import SpotifyCard from "./SpotifyCard";
-// import { Swiper, SwiperSlide } from "swiper/react";
+import { useNavigate } from "react-router-dom";
 
 const PopularPlaylists = () => {
   const [popularPlaylists, setPopularPlaylists] = useState([]);
-  const { token } = useContext(StateContext);
+  const { token, handleGetPlaylist } = useContext(StateContext);
+  const navigate = useNavigate();
 
   const getPopularPlaylists = async () => {
     try {
@@ -38,22 +34,18 @@ const PopularPlaylists = () => {
     getPopularPlaylists();
   }, [token]);
 
-  // const breakpoints = {
-  //   320: { slidesPerView: 1 },
-  //   480: { slidesPerView: 2 },
-  //   768: { slidesPerView: 3 },
-  //   1024: { slidesPerView: 5 },
-  // };
-
   return (
     <div>
       <b className="text-white text-xl my-4 font-semibold">
         {popularPlaylists.message}
       </b>
-      <div className="mt-4 overflow-y-auto w-full h-full gap-2 bg-base-300 cards_container relative">
+      <div className="mt-4 w-full h-full gap-2 bg-base-300 cards_container relative">
           {popularPlaylists.playlists && popularPlaylists.playlists.items && (
             popularPlaylists.playlists.items.map((item) => (
-              <SpotifyCard key={item.id} item={item} />
+              <SpotifyCard key={item.id} item={item} handleClick={() => {
+                handleGetPlaylist(item.id);
+                navigate(`/playlist/${item.name}`);
+              }} />
             ))
           )}
       </div>

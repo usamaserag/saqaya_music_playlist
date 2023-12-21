@@ -116,6 +116,7 @@ const App = () => {
   };
 
   const handleGetTracks = async (id) => {
+    console.log(id)
     try {
       const artistParameters = {
         method: "GET",
@@ -129,6 +130,7 @@ const App = () => {
         artistParameters
       );
       const data = await response.json();
+      console.log(data)
       setTracks(data.items);
     } catch (error) {
       console.error("Error fetching tracks:", error);

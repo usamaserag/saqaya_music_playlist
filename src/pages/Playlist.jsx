@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import defaultImage from "../assets/spotify_default_image.jpg";
 import TrackDetails from "../components/TrackDetails";
 import { StateContext } from "../App";
 import Loading from "../components/Loading";
