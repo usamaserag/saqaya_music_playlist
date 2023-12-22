@@ -3,7 +3,7 @@ import { StateContext } from "../App";
 import { FaRegUser, FaAngleLeft, FaSignOutAlt } from "react-icons/fa";
 import Search from "./Search";
 import { useNavigate, useLocation } from "react-router-dom";
-import { loginUrl } from "../components/SpotifyLogin";
+import { loginURL } from "../api/spotifyLogin.js"
 
 const Header = () => {
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ const Header = () => {
             </div>
           ) : (
             <a
-              href={loginUrl}
+              href={loginURL}
               className="bg-base-100 rounded-full px-6 py-2 font-semibold w-fit"
             >
               LOG IN

@@ -26,3 +26,4 @@ export const getToken = () => {
 
   return accessToken;
 };
+
